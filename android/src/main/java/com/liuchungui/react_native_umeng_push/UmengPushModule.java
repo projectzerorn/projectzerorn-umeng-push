@@ -13,6 +13,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.umeng.message.UmengRegistrar;
 import com.umeng.message.entity.UMessage;
+import com.umeng.message.PushAgent;
 
 import org.json.JSONObject;
 
@@ -30,6 +31,7 @@ public class UmengPushModule extends ReactContextBaseJavaModule implements Lifec
 
     private UmengPushApplication mPushApplication;
     private ReactApplicationContext mReactContext;
+    private PushAgent mPushAgent;
 
     public UmengPushModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -39,6 +41,8 @@ public class UmengPushModule extends ReactContextBaseJavaModule implements Lifec
         mPushApplication = application;
         //添加监听
         mReactContext.addLifecycleEventListener(this);
+
+        mPushAgent = PushAgent.getInstance(reactContext);
     }
 
     @Override
@@ -114,4 +118,18 @@ public class UmengPushModule extends ReactContextBaseJavaModule implements Lifec
         mPushApplication.setmPushModule(null);
     }
 
+    @ReactMethod
+    public void enable() {
+        mPushAgent.enable();
+    }
+
+    @ReactMethod
+    public void disable() {
+        mPushAgent.disable();
+    }
+
+    @ReactMethod
+    public void isEnabled(Callback callback) {
+        callback.invoke(mPushAgent.isEnabled());
+    }
 }
