@@ -87,6 +87,43 @@ RCT_EXPORT_METHOD(getDeviceToken:(RCTResponseSenderBlock)callback) {
     callback(@[deviceToken]);
 }
 
+RCT_EXPORT_METHOD(enable) {
+    [self jumpToSetting];
+}
+
+RCT_EXPORT_METHOD(disable) {
+    [self jumpToSetting];
+}
+
+- (void)jumpToSetting{
+    //http://my.oschina.net/u/2340880/blog/619224
+    NSString * bundleId = [[NSBundle mainBundle]bundleIdentifier];
+    NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"prefs:root=NOTIFICATIONS_ID&path=%@",bundleId]];
+    [[UIApplication sharedApplication]openURL:url];
+}
+
+
+
+RCT_EXPORT_METHOD(isEnabled:(RCTResponseSenderBlock)callback) {
+    BOOL isEnable;
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(isRegisteredForRemoteNotifications)]) {
+        BOOL isRegisteredForRemoteNotifications = [[UIApplication sharedApplication] isRegisteredForRemoteNotifications];
+        if (isRegisteredForRemoteNotifications) {
+            isEnable = true;
+        }else{
+            isEnable = false;
+        }
+    } else {
+        UIRemoteNotificationType types = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
+        if (types == UIRemoteNotificationTypeNone) {
+            isEnable = false;
+        }else{
+            isEnable = true;
+        }
+    }
+    callback(@[@(isEnable)]);
+}
+
 /**
  *  初始化UM的一些配置
  */
