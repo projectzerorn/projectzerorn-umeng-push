@@ -3,6 +3,8 @@
 ```
 rnpm install react-native-umeng-push
 ```
+##同步upstream
+到https://github.com/liuchungui/react-native-umeng-push #commit d1824ea
 
 ##集成到iOS
 在`Appdelegate.m`中对应的位置添加如下三个API：
