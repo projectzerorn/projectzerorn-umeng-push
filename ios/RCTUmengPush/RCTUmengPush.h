@@ -10,7 +10,7 @@
 #import "RCTBridgeModule.h"
 
 @interface RCTUmengPush : NSObject <RCTBridgeModule>
-+ (void)registerWithAppkey:(NSString *)appkey launchOptions:(NSDictionary *)launchOptions;
++ (void)registerWithAppkey:(NSString *)appkey launchOptions:(NSDictionary *)launchOptions delegate:(UIResponder <UIApplicationDelegate> *)delegate;
 + (void)application:(UIApplication *)application didRegisterDeviceToken:(NSData *)deviceToken;
 + (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
 @end
